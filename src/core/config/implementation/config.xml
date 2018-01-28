@@ -8,4 +8,6 @@
     <setting key="pinfolder" value="/sys/class/gpio/gpio{gpioid}" />
     <setting key="directionfile" value="/sys/class/gpio/gpio{gpioid}/direction" />
     <setting key="commandfile" value="/sys/class/gpio/gpio{gpioid}/value" />
+    <setting key="switchtoredled" value="10" />
+    <setting key="switchtoyellowled" value="10" />
 </config>

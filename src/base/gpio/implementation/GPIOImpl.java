@@ -58,4 +58,9 @@ public class GPIOImpl implements GPIO {
 		this.commandFileHandler.destroy();
 		this.unexportFileHandler.destroy();
 	}
+
+	@Override
+	protected void finalize() {
+		this.setValue("0");
+	}
 }

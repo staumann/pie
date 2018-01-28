@@ -32,7 +32,6 @@ public class ConfigHandler {
 			@Override
 			public void startElement(String uri, String localName, String qName, Attributes attributes)
 					throws SAXException {
-				System.out.println(uri);
 				super.startElement(uri, localName, qName, attributes);
 				
 				switch(qName) {
