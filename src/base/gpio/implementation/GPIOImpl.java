@@ -11,6 +11,10 @@ import base.gpio.file.implementation.GPIOUnexportFileHandler;
 import core.config.definition.ConfigManager;
 import core.config.implementation.ConfigManagerImpl;
 
+/**
+ *
+ * @author Sascha
+ */
 public class GPIOImpl implements GPIO {
 
 	private String gpioID;
@@ -18,14 +22,15 @@ public class GPIOImpl implements GPIO {
 	private GPIOUnexportFileHandler unexportFileHandler;
 	private GPIOCommandFileHandler commandFileHandler;
 	private ConfigManager config;
-	
+
 	public GPIOImpl(String gpioID) {
-		this.gpioID = gpioID;
+	    //Set gpioID
+	    this.gpioID = gpioID;
 		exportFileHandler = GPIOExportFileHandler.getInstance();
 		unexportFileHandler = GPIOUnexportFileHandler.getInstance();
 		this.config = ConfigManagerImpl.getInstance();
 		exportFileHandler.addGPIO(gpioID);
-        /*** Init GPIO port for output ***/
+        // Init GPIO port for output //
         // Open file handles to GPIO port unexport and export controls
     	
         // Reset the port
