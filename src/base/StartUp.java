@@ -2,8 +2,6 @@ package base;
 
 import core.config.implementation.ConfigManagerImpl;
 
-import java.util.stream.Stream;
-
 public class StartUp {
 
     /**
