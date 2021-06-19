@@ -1,3 +1,6 @@
 .idea
-Temperatur.iml
+build
 out
+gradle
+gradlew
+gradlew.bat
