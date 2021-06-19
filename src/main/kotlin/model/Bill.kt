@@ -9,5 +9,6 @@ import javax.persistence.Table
 @Table(name = "bills")
 data class Bill(
     @Id @Column(name = "id") val id: String,
-    @Column(name = "payedBy") val payedBy: String
+    @Column(name = "payedBy") val payedBy: String,
+    @Column(name = "shopId") val shopId: String
 )
