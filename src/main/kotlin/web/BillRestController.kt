@@ -4,10 +4,7 @@ import com.home.tool.model.Bill
 import com.home.tool.model.Response
 import com.home.tool.service.BillService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/bill")
@@ -26,7 +23,7 @@ class BillRestController(private val billService: BillService) {
         return ResponseEntity.notFound().build()
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     fun deleteBill(@RequestParam("id")id: String): ResponseEntity<Response> {
         billService.deleteBill(id)
         return ResponseEntity.ok().body(Response(true,"bill with id $id was deleted."))

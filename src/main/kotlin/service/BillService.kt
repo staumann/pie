@@ -13,5 +13,9 @@ class BillService(private val billRepository: BillRepository) {
 
     fun deleteBill(id: String) = billRepository.deleteById(id)
 
-    fun storeBill(bill: Bill) = billRepository.save(bill)
+    fun storeBill(bill: Bill?) {
+        bill?.apply {
+            billRepository.save(this)
+        }
+    }
 }

@@ -30,7 +30,7 @@ class ShopRestController(private val shopService: ShopService) {
         return ResponseEntity.ok().body(Response(true, "Store shop with name ${shop.name}."))
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     fun deleteShop(@RequestParam("id")id: String): ResponseEntity<Response> {
         shopService.deleteShop(id)
         return ResponseEntity.ok().body(Response(true, "Deleted Shop with id $id."))
