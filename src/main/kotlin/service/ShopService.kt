@@ -11,7 +11,11 @@ class ShopService(private val shopRepository: ShopRepository) {
 
     fun getShopById(id: String): Shop? = shopRepository.findById(id).orElse(null)
 
-    fun storeShop(shop: Shop) = shopRepository.save(shop)
+    fun storeShop(shop: Shop?) {
+        shop.apply {
+            shopRepository.save(this)
+        }
+    }
 
     fun deleteShop(id: String) = shopRepository.deleteById(id)
 }

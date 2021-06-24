@@ -31,7 +31,7 @@ class UserRestController(private val userService: UserService) {
         return Response(true, "Store User ${entity.firstName} ${entity.lastName}")
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     fun deleteUser(@RequestParam("id") id: String): Response {
         userService.deleteUser(id)
         return Response(true, "User with id $id was deleted.")
