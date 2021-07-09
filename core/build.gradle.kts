@@ -4,6 +4,8 @@ plugins {
     kotlin("jvm") version "1.4.32"
     id("org.springframework.boot") version "2.4.7"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+
+    id("io.gitlab.arturbosch.detekt").version("1.17.1")
 }
 
 group = "com.home.tool"
@@ -34,4 +36,18 @@ tasks.test {
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+detekt {
+    reports {
+        xml {
+            enabled = true
+        }
+        html {
+            enabled = true
+        }
+        txt {
+            enabled = true
+        }
+    }
 }

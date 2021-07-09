@@ -15,11 +15,8 @@ class BillService(private val billRepository: BillRepository) {
 
     fun storeBill(bill: Bill?): Bill? {
         bill?.apply {
-            if (id.isBlank()) {
-                id = "${shopId}-${payedBy}-${date.get(Calendar.YEAR)}-${date.get(Calendar.MONTH)}-${date.get(Calendar.DAY_OF_MONTH)}"
-                println("id is null setting id to $id")
-            }
-           return billRepository.save(this)
+            this.id = if (this.id == "") getIdForString(this.shopId) else this.id
+            return billRepository.save(this)
         }
         return null
     }

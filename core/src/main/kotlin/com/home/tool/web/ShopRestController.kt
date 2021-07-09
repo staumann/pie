@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/shop")
 class ShopRestController(private val shopService: ShopService) {
 
+    @GetMapping("/all")
+    fun getAll(): ResponseEntity<Iterable<Shop>> {
+        return ResponseEntity.ok().body(shopService.getAllShops())
+    }
+
     @GetMapping("/get")
     fun getShop(@RequestParam("id") id: String): ResponseEntity<Shop> {
         shopService.getShopById(id)?.apply {
@@ -34,10 +39,5 @@ class ShopRestController(private val shopService: ShopService) {
     fun deleteShop(@RequestParam("id")id: String): ResponseEntity<Response> {
         shopService.deleteShop(id)
         return ResponseEntity.ok().body(Response(true, "Deleted Shop with id $id."))
-    }
-
-    @GetMapping("/all")
-    fun getAll(): Iterable<Shop> {
-        return shopService.getAllShops()
     }
 }

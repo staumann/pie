@@ -27,13 +27,19 @@ class PositionRestController(private val positionService: PositionService) {
         return ResponseEntity.notFound().build()
     }
 
-    @PostMapping("/store")
+    @PostMapping("/store/all")
     fun storePosition(@RequestBody positions: Iterable<Position>): ResponseEntity<Response> {
         val count: Int = positionService.storePositions(positions).toList().size
         if (count > 0) {
             return ResponseEntity.ok().body(Response(true, "stored $count positions"))
         }
         return ResponseEntity.internalServerError().body(Response(false, "could not save positions"))
+    }
+
+    @PostMapping("/store")
+    fun storePosition(@RequestBody position: Position): ResponseEntity<Response> {
+        positionService.storePosition(position)
+        return ResponseEntity.ok().body(Response(true, "stored new position for ${position.billID} positions"))
     }
 
     @DeleteMapping("/delete")

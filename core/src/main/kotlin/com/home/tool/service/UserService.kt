@@ -11,7 +11,10 @@ class UserService(private val userRep: UserRepository) {
 
     fun getById(id: String): User? = userRep.findById(id).orElse(null)
 
-    fun storeUser(user: User): User = userRep.save(user)
+    fun storeUser(user: User): User {
+        user.id = if (user.id == "") getIdForString(user.firstName) else user.id
+        return userRep.save(user)
+    }
 
     fun deleteUser(id: String) = userRep.deleteById(id)
 }

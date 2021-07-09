@@ -8,7 +8,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "shops")
 data class Shop(
-    @Id @Column(name = "id") val id: String = "",
-    @Column(name = "name") val name: String = "",
-    @Column(name = "category_id") val category: String = ""
+    @Id @Column(name = "id") var id: String = "",
+    @Column(name = "name") var name: String = "",
+    @Column(name = "category_id") var category: String = ""
 )

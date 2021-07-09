@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS positions(
     name VARCHAR(100) NOT NULL,
     comment VARCHAR(255),
     target_id VARCHAR(50) NOT NULL,
+    category_id VARCHAR(50) NOT NULL,
+    FOREIGN KEY(category_id) REFERENCES categories(id),
     FOREIGN KEY(bill_id) REFERENCES bills(id),
     FOREIGN KEY (target_id) REFERENCES users(id)
 );

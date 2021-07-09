@@ -12,8 +12,9 @@ class ShopService(private val shopRepository: ShopRepository) {
     fun getShopById(id: String): Shop? = shopRepository.findById(id).orElse(null)
 
     fun storeShop(shop: Shop?) {
-        shop.apply {
-            shopRepository.save(this)
+        shop?.let {
+            it.id = if (it.id == "") getIdForString(it.name) else it.id
+            shopRepository.save(it)
         }
     }
 
