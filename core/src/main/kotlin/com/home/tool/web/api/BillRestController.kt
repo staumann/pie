@@ -1,6 +1,8 @@
-package com.home.tool.web
+package com.home.tool.web.api
 
+import com.home.tool.core.BillProcessor
 import com.home.tool.model.Bill
+import com.home.tool.model.DisplayBill
 import com.home.tool.model.Response
 import com.home.tool.service.BillService
 import org.springframework.http.ResponseEntity
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/bill")
-class BillRestController(private val billService: BillService) {
+class BillRestController(private val billService: BillService, private val billProcessor: BillProcessor) {
 
     @GetMapping("/all")
     fun getAllBills(): ResponseEntity<Iterable<Bill>> {
@@ -16,8 +18,8 @@ class BillRestController(private val billService: BillService) {
     }
 
     @GetMapping("/get")
-    fun getBill(@RequestParam("id") id: String): ResponseEntity<Bill> {
-        billService.getBillById(id)?.apply {
+    fun getBill(@RequestParam("id") id: String): ResponseEntity<DisplayBill> {
+        billProcessor.getDisplayInformation(id)?.apply {
             return ResponseEntity.ok().body(this)
         }
         return ResponseEntity.notFound().build()

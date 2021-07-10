@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    {{> header}}
+    <body>
+        <div class="wrapper">
+            <h2>Overview</h2>
+            {{#bills}}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{shop.name}} ({{date}})</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Payed: {{payedBy.firstName}}</li>
+                            <li class="list-group-item">Shop: {{shop.name}}</li>
+                            <li class="list-group-item">Total: {{total}}</li>
+                        </ul>
+                        <a href="/show/bill?id={{id}}" class="btn btn-primary">Show</a>
+                    </div>
+                </div>
+            {{/bills}}
+        </div>
+    </body>
+</html>

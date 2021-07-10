@@ -1,4 +1,4 @@
-package com.home.tool.web
+package com.home.tool.web.api
 
 import com.home.tool.model.Position
 import com.home.tool.model.Response

@@ -21,7 +21,7 @@ class TestBillService {
         cal.set(Calendar.YEAR, 2021)
         cal.set(Calendar.MONTH, 5)
         cal.set(Calendar.DAY_OF_MONTH, 10)
-        val testBill = Bill("", "me", "1", cal)
+        val testBill = Bill("", "me", "1", 0.0, cal)
         Mockito.`when`(repoMock.save(testBill)).thenReturn(testBill)
         val resultBill = service.storeBill(testBill)
 
