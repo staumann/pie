@@ -11,6 +11,8 @@ class PositionService(private val positionRepository: PositionRepository) {
 
     fun getPositionsByBillId(id: String): Iterable<Position> = positionRepository.findByBillID(id)
 
+    fun getPositionsByCategoryId(id: String): Iterable<Position> = positionRepository.findByCategory(id)
+
     fun storePositions(position: Iterable<Position>?): Iterable<Position> = positionRepository.saveAll(position)
 
     fun storePosition(position: Position): Position {

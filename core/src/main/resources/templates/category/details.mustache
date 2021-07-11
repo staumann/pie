@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+{{> header}}
+<body>
+<div class="wrapper">
+    {{#category}}
+    <h2>{{name}}</h2>
+    <div class="p-5">
+        {{description}}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                Total:
+            </div>
+            <div class="col">
+                {{total}}
+            </div>
+        </div>
+    </div>
+    {{/category}}
+</div>
+</body>
+</html>

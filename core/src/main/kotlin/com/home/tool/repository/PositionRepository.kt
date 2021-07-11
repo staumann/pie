@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository
 interface PositionRepository: CrudRepository<Position, String> {
     fun findByBillID(id: String): Iterable<Position>
 
+    fun findByCategory(id: String): Iterable<Position>
+
     fun deleteByBillID(id: String)
 }

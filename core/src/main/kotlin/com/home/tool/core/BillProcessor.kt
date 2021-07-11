@@ -33,11 +33,11 @@ class BillProcessor(
         return null
     }
 
-    fun convertBill(bill: Bill): DisplayBill {
+    private fun convertBill(bill: Bill): DisplayBill {
         val user = userService.getById(bill.payedBy)
         val positions: Iterable<Position> = positionService.getPositionsByBillId(bill.id)
         val shop: Shop? = shopService.getShopById(bill.shopId)
-        return DisplayBill(bill.id, user, getTotalForBill(positions), sdf.format(bill.date.time), shop)
+        return DisplayBill(bill.id, user, getTotalForBill(positions), sdf.format(bill.date.time), shop, positions)
     }
 
     fun getOverViewInformation(): Iterable<DisplayBill> {

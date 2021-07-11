@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    {{> header}}
+    <body>
+        <div class="wrapper">
+            {{#bill}}
+            <h2>{{shop.name}} ({{date}})</h2>
+            <div class="container">
+                <form method="post" action="/show/bill/save">
+                    <div class="row">
+                        <div class="col">
+                            <label for="shopId">Shop:</label>
+                        </div>
+                        <div class="col">
+                            <select name="shopId" id="shopId">
+                                <opion value="">Please select</opion>
+                                {{#shops}}
+                                    <option value="{{first.id}}"{{#second}} selected="selected"{{/second}}>{{first.name}}</option>
+                                {{/shops}}
+                            </select>
+                        </div>
+                    </div>
+                    <input type="text" value="{{shop.name}}" name="shop" />
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </form>
+            </div>
+
+            {{/bill}}
+        </div>
+    </body>
+</html>

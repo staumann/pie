@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+{{> header}}
+<body>
+<div class="wrapper">
+    <h2>New Category</h2>
+    <div class="container">
+        <form action="/show/category/new/store" method="post">
+            <div class="row">
+                <div class="col">
+                    <label for="name">
+                        Category Name
+                    </label>
+                </div>
+                <div class="col">
+                    <input type="text" name="name" id="name" placeholder="..."/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="description">
+                        Category Description
+                    </label>
+                </div>
+                <div class="col">
+                    <input type="text" name="description" id="description" placeholder="..."/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" name="submit" value="save" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
