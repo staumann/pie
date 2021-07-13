@@ -2,3 +2,20 @@
     margin: 0 auto;
     max-width: 768px;
 }
+
+.position-container,
+.footer {
+    background-color: #f5f5f5;
+}
+
+.footer {
+    width: 100%;
+}
+
+.footer h3 {
+    text-align: center
+}
+
+.footer ul {
+    list-style: none;
+}

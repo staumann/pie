@@ -9,7 +9,8 @@ import javax.persistence.Table
 @Table(name = "positions")
 data class Position(
     @Id @Column(name = "id") var id: String = "",
-    @Column(name = "bill_id") var billID: String = "",
+    @Column(name = "bill_id") var billId: String = "",
+    @Column(name = "comment") var comment: String? = null,
     @Column(name = "amount") var amount: Double = 0.0,
     @Column(name = "name") var name: String = "",
     @Column(name = "target_id") var targetId: String = "",

@@ -9,20 +9,20 @@ class PositionService(private val positionRepository: PositionRepository) {
 
     fun getPositionById(id: String): Position? = positionRepository.findById(id).orElseGet(null)
 
-    fun getPositionsByBillId(id: String): Iterable<Position> = positionRepository.findByBillID(id)
+    fun getPositionsByBillId(id: String): Iterable<Position> = positionRepository.findByBillId(id)
 
     fun getPositionsByCategoryId(id: String): Iterable<Position> = positionRepository.findByCategory(id)
 
     fun storePositions(position: Iterable<Position>?): Iterable<Position> = positionRepository.saveAll(position)
 
     fun storePosition(position: Position): Position {
-        position.id = if (position.id == "") getIdForString(position.billID) else position.id
+        position.id = if (position.id == "") getIdForString(position.billId) else position.id
 
         return positionRepository.save(position)
     }
 
     fun deletePosition(id: String) = positionRepository.deleteById(id)
 
-    fun deletePositions(id: String) = positionRepository.deleteByBillID(id)
+    fun deletePositions(id: String) = positionRepository.deleteByBillId(id)
 
 }

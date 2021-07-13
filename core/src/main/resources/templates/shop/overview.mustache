@@ -4,20 +4,19 @@
     <body>
         <div class="wrapper">
             <h2>Overview</h2>
-            {{#categories}}
+            {{#shops}}
             <div class="card mt-2">
                 <div class="card-body">
-                    <h5 class="card-title">Category: {{name}}</h5>
+                    <h5 class="card-title">Shop: {{name}}</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Name: {{name}}</li>
-                        <li class="list-group-item">Description: {{description}}</li>
                     </ul>
                     <div class="text-center">
-                        <a href="/show/category/details?id={{id}}" class="btn btn-primary">Show</a>
+                        <a href="/show/shop/details?id={{id}}" class="btn btn-primary">Show</a>
                     </div>
                 </div>
             </div>
-            {{/categories}}
+            {{/shops}}
         </div>
         {{> footer}}
     </body>

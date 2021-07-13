@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+{{> header}}
+<body>
+<div class="wrapper">
+    <h2>Enter new Bill</h2>
+    <div class="container">
+        <form method="post" action="/show/bill/save">
+            <div class="row">
+                <div class="col">
+                    <label for="shopId">Shop:</label>
+                </div>
+                <div class="col">
+                    <select name="shopId" id="shopId">
+                        <opion value="#">Please select</opion>
+                        {{#shops}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/shops}}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="payedBy">Payed by: </label>
+                </div>
+                <div class="col">
+                    <select name="payedBy" id="payedBy">
+                        <opion value="#">Please select</opion>
+                        {{#users}}
+                        <option value="{{id}}">{{firstName}}</option>
+                        {{/users}}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="date">Date: </label>
+                </div>
+                <div class="col">
+                    <input type="text" id="date" name="date" placeholder="dd.mm.yyyy" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="discount">Discount: </label>
+                </div>
+                <div class="col">
+                    <input type="text" id="discount" name="discount" placeholder="#.##€" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{> footer}}
+</body>
+</html>

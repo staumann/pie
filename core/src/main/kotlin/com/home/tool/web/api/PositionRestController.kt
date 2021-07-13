@@ -39,7 +39,7 @@ class PositionRestController(private val positionService: PositionService) {
     @PostMapping("/store")
     fun storePosition(@RequestBody position: Position): ResponseEntity<Response> {
         positionService.storePosition(position)
-        return ResponseEntity.ok().body(Response(true, "stored new position for ${position.billID} positions"))
+        return ResponseEntity.ok().body(Response(true, "stored new position for ${position.billId} positions"))
     }
 
     @DeleteMapping("/delete")

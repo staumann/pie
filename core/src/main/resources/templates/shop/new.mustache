@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+{{> header}}
+<body>
+<div class="wrapper">
+    <h2>New Shop</h2>
+    <div class="container">
+        <form action="/show/shop/new/store" method="post">
+            <div class="row">
+                <div class="col">
+                    <label for="name">
+                        Shop Name
+                    </label>
+                </div>
+                <div class="col">
+                    <input type="text" name="name" id="name" placeholder="..."/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="category">Category</label>
+                </div>
+                <div class="col">
+                    <select name="category" id="category">
+                        {{#categories}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/categories}}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" name="submit" value="save" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

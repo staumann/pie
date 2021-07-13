@@ -9,6 +9,9 @@ import com.home.tool.service.PositionService
 import com.home.tool.service.ShopService
 import com.home.tool.service.UserService
 import org.springframework.stereotype.Component
+import java.math.BigDecimal
+import java.math.MathContext
+import java.math.RoundingMode
 import java.time.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 
@@ -37,7 +40,7 @@ class BillProcessor(
         val user = userService.getById(bill.payedBy)
         val positions: Iterable<Position> = positionService.getPositionsByBillId(bill.id)
         val shop: Shop? = shopService.getShopById(bill.shopId)
-        return DisplayBill(bill.id, user, getTotalForBill(positions), sdf.format(bill.date.time), shop, positions)
+        return DisplayBill(bill.id, user, getTotalForBill(positions), sdf.format(bill.date.time), shop, positions, bill.discount)
     }
 
     fun getOverViewInformation(): Iterable<DisplayBill> {
@@ -46,5 +49,7 @@ class BillProcessor(
         }
     }
 
-    private fun getTotalForBill(positions: Iterable<Position>): Double =  positions.sumByDouble { it.amount }
+    fun saveBill(bill: Bill?): Bill? = billService.storeBill(bill)
+
+    private fun getTotalForBill(positions: Iterable<Position>): Double = BigDecimal.valueOf(positions.sumByDouble { it.amount }).setScale(2, RoundingMode.HALF_EVEN).toDouble()
 }

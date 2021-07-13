@@ -6,26 +6,106 @@
             {{#bill}}
             <h2>{{shop.name}} ({{date}})</h2>
             <div class="container">
-                <form method="post" action="/show/bill/save">
+                <div class="row">
+                    <div class="col">
+                        Shop:
+                    </div>
+                    <div class="col">
+                        {{shop.name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        Discount:
+                    </div>
+                    <div class="col">
+                        <input type="discount" value="{{discount}}" readonly name="discount" />
+                    </div>
+                </div>
+                <div class="position-container p-5">
                     <div class="row">
+                        <div class="col">Name</div>
+                        <div class="col">Amount</div>
+                        <div class="col"></div>
+                    </div>
+                    {{#positions}}
+                        <div class="row">
+                            <div class="col">{{name}}</div>
+                            <div class="col">{{amount}}</div>
+                            <div class="col">
+                                <a href="/show/position/delete?id={{id}}&billId={{billId}}"><img src="/trash.svg" width="20px" height="20px"></a>
+                            </div>
+                        </div>
+                    {{/positions}}
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        Total
+                    </div>
+                    <div class="col">
+                        {{total}}
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-5 mb-5">
+                <h2>Add Position</h2>
+                <form method="post" action="/show/position/save">
+                    <input type="hidden" name="billId" value="{{id}}" />
+                    <div class="row mb-2">
                         <div class="col">
-                            <label for="shopId">Shop:</label>
+                            <label for="name">Name</label>
                         </div>
                         <div class="col">
-                            <select name="shopId" id="shopId">
-                                <opion value="">Please select</opion>
-                                {{#shops}}
-                                    <option value="{{first.id}}"{{#second}} selected="selected"{{/second}}>{{first.name}}</option>
-                                {{/shops}}
+                            <input type="text" name="name" id="name" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="amount">Amount</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="amount" id="amount" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="targetId">Target</label>
+                        </div>
+                        <div class="col mb-2">
+                            <select name="targetId" id="targetId">
+                                <option value="#">Select</option>
+                                {{#users}}
+                                    <option value="{{id}}">{{firstName}}</option>
+                                {{/users}}
                             </select>
                         </div>
                     </div>
-                    <input type="text" value="{{shop.name}}" name="shop" />
-                    <input type="submit" class="btn btn-primary" value="Save" />
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="category">Category</label>
+                        </div>
+                        <div class="col">
+                            <select name="category" id="category">
+                                {{#categories}}
+                                    <option value="{{first.id}}"{{#second}} selected="selected"{{/second}}>{{first.name}}</option>
+                                {{/categories}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="comment">Comment</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="comment" id="comment"/>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Add" />
                 </form>
             </div>
-
             {{/bill}}
         </div>
+        {{> footer}}
     </body>
 </html>
