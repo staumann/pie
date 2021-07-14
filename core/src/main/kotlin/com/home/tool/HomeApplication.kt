@@ -10,5 +10,5 @@ open class HomeApplication
  * the main function
  */
 fun main(args: Array<String>) {
-    runApplication<HomeApplication>(*args)
+    runApplication<HomeApplication>(args.joinToString { " " })
 }

@@ -59,7 +59,4 @@ class BillController(
         billProcessor.saveBill(Bill(payedBy = payedBy, shopId = shopId, date = cal, discount = discount))
         return ModelAndView("redirect:/overview")
     }
-
-    private fun getShops(shop: Shop?): List<Pair<Shop, Boolean>> =
-        shopService.getAllShops().map { Pair(it, it.id == shop?.id) }.toList()
 }

@@ -4,19 +4,29 @@ import com.home.tool.repository.ShopRepository
 import com.home.tool.model.Shop
 import org.springframework.stereotype.Service
 
+interface ShopService {
+    fun getAllShops(): Iterable<Shop>
+
+    fun getShopById(id: String): Shop?
+
+    fun storeShop(shop: Shop?)
+
+    fun deleteShop(id: String)
+}
+
 @Service
-class ShopService(private val shopRepository: ShopRepository) {
+class ShopServiceImpl(private val shopRepository: ShopRepository): ShopService {
 
-    fun getAllShops(): Iterable<Shop> = shopRepository.findAll()
+    override fun getAllShops(): Iterable<Shop> = shopRepository.findAll()
 
-    fun getShopById(id: String): Shop? = shopRepository.findById(id).orElse(null)
+    override fun getShopById(id: String): Shop? = shopRepository.findById(id).orElse(null)
 
-    fun storeShop(shop: Shop?) {
+    override fun storeShop(shop: Shop?) {
         shop?.let {
             it.id = if (it.id == "") getIdForString(it.name) else it.id
             shopRepository.save(it)
         }
     }
 
-    fun deleteShop(id: String) = shopRepository.deleteById(id)
+    override fun deleteShop(id: String) = shopRepository.deleteById(id)
 }

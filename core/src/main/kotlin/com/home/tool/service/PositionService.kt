@@ -4,25 +4,41 @@ import com.home.tool.repository.PositionRepository
 import com.home.tool.model.Position
 import org.springframework.stereotype.Service
 
+interface PositionService {
+    fun getPositionById(id: String): Position?
+
+    fun getPositionsByBillId(id: String): Iterable<Position>
+
+    fun getPositionsByCategoryId(id: String): Iterable<Position>
+
+    fun storePositions(position: Iterable<Position>?): Iterable<Position>
+
+    fun storePosition(position: Position): Position
+
+    fun deletePosition(id: String)
+
+    fun deletePositions(id: String)
+}
+
 @Service
-class PositionService(private val positionRepository: PositionRepository) {
+class PositionServiceImpl(private val positionRepository: PositionRepository) : PositionService {
 
-    fun getPositionById(id: String): Position? = positionRepository.findById(id).orElseGet(null)
+    override fun getPositionById(id: String): Position? = positionRepository.findById(id).orElseGet(null)
 
-    fun getPositionsByBillId(id: String): Iterable<Position> = positionRepository.findByBillId(id)
+    override fun getPositionsByBillId(id: String): Iterable<Position> = positionRepository.findByBillId(id)
 
-    fun getPositionsByCategoryId(id: String): Iterable<Position> = positionRepository.findByCategory(id)
+    override fun getPositionsByCategoryId(id: String): Iterable<Position> = positionRepository.findByCategory(id)
 
-    fun storePositions(position: Iterable<Position>?): Iterable<Position> = positionRepository.saveAll(position)
+    override fun storePositions(position: Iterable<Position>?): Iterable<Position> =
+        positionRepository.saveAll(position)
 
-    fun storePosition(position: Position): Position {
+    override fun storePosition(position: Position): Position {
         position.id = if (position.id == "") getIdForString(position.billId) else position.id
 
         return positionRepository.save(position)
     }
 
-    fun deletePosition(id: String) = positionRepository.deleteById(id)
+    override fun deletePosition(id: String) = positionRepository.deleteById(id)
 
-    fun deletePositions(id: String) = positionRepository.deleteByBillId(id)
-
+    override fun deletePositions(id: String) = positionRepository.deleteByBillId(id)
 }

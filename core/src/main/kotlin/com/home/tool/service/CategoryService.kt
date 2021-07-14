@@ -6,23 +6,33 @@ import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 
-@Service
-class CategoryService(private val repo: CategoryRepository) {
+interface CategoryService {
+    fun getAll(): Iterable<Category>
 
-    fun getAll(): Iterable<Category> {
+    fun storeCategory(category: Category): Category
+
+    fun getCategory(id: String): Category?
+
+    fun deleteCategory(id: String)
+}
+
+@Service
+class CategoryServiceImpl(private val repo: CategoryRepository): CategoryService {
+
+    override fun getAll(): Iterable<Category> {
         return repo.findAll()
     }
 
-    fun storeCategory(category: Category): Category {
+    override fun storeCategory(category: Category): Category {
         category.id = if (category.id == "") getIdForString(category.name) else category.id
         return repo.save(category)
     }
 
-    fun getCategory(id: String): Category? {
+    override fun getCategory(id: String): Category? {
         return repo.findById(id).orElseGet { null }
     }
 
-    fun deleteCategory(id: String) {
+    override fun deleteCategory(id: String) {
         repo.deleteById(id)
     }
 }

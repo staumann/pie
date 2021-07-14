@@ -5,12 +5,16 @@ import com.home.tool.service.PositionService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
 
 @Controller
+@RequestMapping("/show/position")
 class PositionController(private val positionService: PositionService) {
-    @PostMapping("/show/position/save")
+
+    @Suppress("LongParameterList")
+    @PostMapping("/save")
     fun savePosition(
         @RequestParam("name") name: String,
         @RequestParam("billId") billId: String,
@@ -31,7 +35,7 @@ class PositionController(private val positionService: PositionService) {
         return ModelAndView("redirect:/show/bill?id=$billId")
     }
 
-    @GetMapping("/show/position/delete")
+    @GetMapping("/delete")
     fun deletePosition(@RequestParam("id") id: String, billId: String): ModelAndView {
         positionService.deletePosition(id)
         return ModelAndView("redirect:/show/bill?id=$billId")

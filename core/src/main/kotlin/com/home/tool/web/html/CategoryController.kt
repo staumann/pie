@@ -8,27 +8,29 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
 
 @Controller
+@RequestMapping("/show/category")
 class CategoryController(
     private val categoryService: CategoryService,
     private val categoryProcessor: CategoryProcessor
 ) {
 
-    @GetMapping("/show/category/overview")
+    @GetMapping("/overview")
     fun showAllCategory(model: Model): ModelAndView {
         model["categories"] = categoryService.getAll()
         return ModelAndView("category/overview", model.asMap())
     }
 
-    @GetMapping("/show/category/new")
+    @GetMapping("/new")
     fun getNewCategory(): ModelAndView {
         return ModelAndView("category/new")
     }
 
-    @PostMapping("/show/category/new/store")
+    @PostMapping("/new/store")
     fun storeNewCategory(
         @RequestParam("name") name: String,
         @RequestParam("description") description: String
@@ -37,7 +39,7 @@ class CategoryController(
         return ModelAndView("redirect:/show/category/overview")
     }
 
-    @GetMapping("/show/category/details")
+    @GetMapping("/details")
     fun getCategory(@RequestParam("id") id: String, model: Model): ModelAndView {
         val category = categoryService.getCategory(id)
         val total = categoryProcessor.getTotalForCategory(id)
