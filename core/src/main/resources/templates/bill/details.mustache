@@ -14,14 +14,6 @@
                         {{shop.name}}
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        Discount:
-                    </div>
-                    <div class="col">
-                        <input type="discount" value="{{discount}}" readonly name="discount" />
-                    </div>
-                </div>
                 <div class="position-container p-5">
                     <div class="row">
                         <div class="col"><h4>Name</h4></div>
@@ -37,6 +29,33 @@
                             </div>
                         </div>
                     {{/positions}}
+                </div>
+                <hr />
+                <div class="row">
+                    {{#result}}
+                        <div class="col">
+                            {{name}}
+                        </div>
+                    {{/result}}
+                </div>
+                <div class="row">
+                    {{#result}}
+                        <div class="col">
+                            {{payed}}
+                        </div>
+                    {{/result}}
+                </div>
+                <div class="row">
+                    {{#result}}
+                    <div class="col">
+                        {{#total}}
+                            {{.}}
+                        {{/total}}
+                        {{^total}}
+                            /
+                        {{/total}}
+                    </div>
+                    {{/result}}
                 </div>
                 <hr />
                 <div class="row">

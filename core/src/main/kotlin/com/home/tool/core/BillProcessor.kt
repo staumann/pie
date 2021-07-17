@@ -1,10 +1,7 @@
 package com.home.tool.core
 
-import com.home.tool.model.Bill
-import com.home.tool.model.DisplayBill
-import com.home.tool.model.Position
-import com.home.tool.model.Result
-import com.home.tool.model.Shop
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.home.tool.model.*
 import com.home.tool.service.BillService
 import com.home.tool.service.PositionService
 import com.home.tool.service.ShopService
@@ -15,13 +12,15 @@ import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
+fun Double.round(): Double =BigDecimal.valueOf(this).setScale(2, RoundingMode.HALF_EVEN).toDouble()
 
 @Component
 class BillProcessor(
     private val billService: BillService,
     private val positionService: PositionService,
     private val shopService: ShopService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val objectMapper: ObjectMapper
 ) {
 
     private val sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy")
@@ -38,6 +37,7 @@ class BillProcessor(
         val user = userService.getById(bill.payedBy)
         val positions: Iterable<Position> = positionService.getPositionsByBillId(bill.id)
         val shop: Shop? = shopService.getShopById(bill.shopId)
+        val results = getResultForBill(positions)
         return DisplayBill(
             bill.id,
             user,
@@ -45,8 +45,25 @@ class BillProcessor(
             sdf.format(bill.date.time),
             shop,
             positions,
-            bill.discount
+            results
         )
+    }
+
+    private fun getResultForBill(positions: Iterable<Position>): Iterable<ResultEntry> {
+        val (pooled, nonePooled) = positions.groupBy { it.targetId }.mapValues { (_, v) -> v.sumByDouble { it.amount } }
+            .map { (k, v) ->
+                val u = userService.getById(k)
+                (u to ResultEntry(name = u?.firstName ?: "", payed = v))
+            }.partition { it.first?.pool ?: false }
+        val poolCount = pooled.size
+        nonePooled.forEach { (_, entry) ->
+            pooled.forEach { it.second.total = (it.second.total ?: 0.0) + entry.payed / poolCount }
+        }
+        val resultEntries: List<ResultEntry> = pooled.map { it.second }.onEach { it.total = (it.total ?: 0.0) + it.payed }
+        return (nonePooled.map { it.second } + resultEntries).onEach {
+            it.total?.round()
+            it.payed.round()
+        }
     }
 
     fun getOverViewInformation(): Iterable<DisplayBill> {
@@ -58,9 +75,17 @@ class BillProcessor(
     fun saveBill(bill: Bill?): Bill? = billService.storeBill(bill)
 
     fun createResultForTimeFrame(startDate: Calendar, endDate: Calendar): Result {
+        val result = billService.getBillsForTimeFrame(startDate, endDate)
+            .map { bill ->
+                bill to positionService.getPositionsByBillId(bill.id).groupBy { it.targetId }
+                    .mapValues { (k, v) -> v.sumByDouble { p -> p.amount } }
+            }
+            .groupBy { it.first.payedBy }.map {}
+        println(objectMapper.writeValueAsString(result))
         return Result(emptyMap())
     }
 
     private fun getTotalForBill(positions: Iterable<Position>): Double =
-        BigDecimal.valueOf(positions.sumByDouble { it.amount }).setScale(2, RoundingMode.HALF_EVEN).toDouble()
+        positions.sumByDouble { it.amount }.round()
+
 }

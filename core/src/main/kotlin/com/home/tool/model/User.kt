@@ -18,5 +18,7 @@ data class User(
     @Column(name = "created_at")
     @JsonFormat(pattern = "dd.MM.yyyy")
     @Temporal(TemporalType.DATE)
-    var date: Calendar = Calendar.getInstance()
+    var date: Calendar = Calendar.getInstance(),
+    @Column
+    var pool: Boolean = false
 )

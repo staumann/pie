@@ -1,5 +1,7 @@
 package com.home.tool.web.html
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.home.tool.core.BillProcessor
 import com.home.tool.service.BillService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -13,7 +15,7 @@ import java.util.*
 
 @Controller
 @RequestMapping("/show/result")
-class ResultController(private val billService: BillService) {
+class ResultController(private val objectMapper: ObjectMapper, private val billProcessor: BillProcessor) {
 
     private val sdf: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
 
@@ -30,9 +32,9 @@ class ResultController(private val billService: BillService) {
         val endCalendar = Calendar.getInstance()
         startCalendar.time = sdf.parse(start)
         endCalendar.time = sdf.parse(end)
-        val bills = billService.getBillsForTimeFrame(startCalendar, endCalendar)
+        val bills = billProcessor.createResultForTimeFrame(startCalendar, endCalendar)
         println("got bills: ")
-        println(bills)
+        println(objectMapper.writeValueAsString(bills))
         model["bills"] = bills
         return ModelAndView("result/result", model.asMap())
     }

@@ -51,12 +51,11 @@ class BillController(
     fun saveNewBill(
         @RequestParam("shopId") shopId: String,
         @RequestParam("payedBy") payedBy: String,
-        @RequestParam("date") date: String,
-        @RequestParam("discount") discount: Double
+        @RequestParam("date") date: String
     ): ModelAndView {
         val cal: Calendar = Calendar.getInstance()
         cal.time = sdf.parse(date)
-        billProcessor.saveBill(Bill(payedBy = payedBy, shopId = shopId, date = cal, discount = discount))
+        billProcessor.saveBill(Bill(payedBy = payedBy, shopId = shopId, date = cal))
         return ModelAndView("redirect:/overview")
     }
 }
