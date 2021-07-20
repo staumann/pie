@@ -41,13 +41,13 @@
                 <div class="row">
                     {{#result}}
                         <div class="col">
-                            {{payed}}
+                            {{targeted}}
                         </div>
                     {{/result}}
                 </div>
                 <div class="row">
                     {{#result}}
-                    <div class="col">
+                    <div class="col{{#total}}{{#hasToPay}} payer{{/hasToPay}}{{/total}}">
                         {{#total}}
                             {{.}}
                         {{/total}}
@@ -93,7 +93,6 @@
                         </div>
                         <div class="col mb-2">
                             <select name="targetId" id="targetId">
-                                <option value="#">Select</option>
                                 {{#users}}
                                     <option value="{{id}}">{{firstName}}</option>
                                 {{/users}}

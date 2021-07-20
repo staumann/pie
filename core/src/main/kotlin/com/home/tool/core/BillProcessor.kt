@@ -12,7 +12,7 @@ import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-fun Double.round(): Double =BigDecimal.valueOf(this).setScale(2, RoundingMode.HALF_EVEN).toDouble()
+fun Double.round(): Double = BigDecimal.valueOf(this).setScale(2, RoundingMode.HALF_EVEN).toDouble()
 
 @Component
 class BillProcessor(
@@ -37,7 +37,7 @@ class BillProcessor(
         val user = userService.getById(bill.payedBy)
         val positions: Iterable<Position> = positionService.getPositionsByBillId(bill.id)
         val shop: Shop? = shopService.getShopById(bill.shopId)
-        val results = getResultForBill(positions)
+        val results = getResultForBill(positions, bill)
         return DisplayBill(
             bill.id,
             user,
@@ -49,21 +49,23 @@ class BillProcessor(
         )
     }
 
-    private fun getResultForBill(positions: Iterable<Position>): Iterable<ResultEntry> {
-        val (pooled, nonePooled) = positions.groupBy { it.targetId }.mapValues { (_, v) -> v.sumByDouble { it.amount } }
-            .map { (k, v) ->
-                val u = userService.getById(k)
-                (u to ResultEntry(name = u?.firstName ?: "", payed = v))
-            }.partition { it.first?.pool ?: false }
-        val poolCount = pooled.size
-        nonePooled.forEach { (_, entry) ->
-            pooled.forEach { it.second.total = (it.second.total ?: 0.0) + entry.payed / poolCount }
-        }
-        val resultEntries: List<ResultEntry> = pooled.map { it.second }.onEach { it.total = (it.total ?: 0.0) + it.payed }
-        return (nonePooled.map { it.second } + resultEntries).onEach {
-            it.total?.round()
-            it.payed.round()
-        }
+    private fun getResultForBill(positions: Iterable<Position>, bill: Bill): Iterable<ResultEntry> {
+        val users = userService.getAll()
+        val pools = users.filter { it.pool }.count()
+        val targetMap = positions.groupBy { it.targetId }.mapValues { (_, v) -> v.sumByDouble { it.amount } }
+        val resultMap =
+            users.associate {
+                it.id to ResultEntry(
+                    name = it.firstName, targeted = (targetMap[it.id] ?: 0.0).round(), hasToPay = bill.payedBy != it.id
+                )
+            }
+        val userMap = users.associateBy { it.id }
+
+        val nonTargetSum =
+            resultMap.filter { (k, _) -> !(userMap[k]?.pool ?: false) }.values.sumByDouble { it.targeted } / pools
+        resultMap.filter { (k, _) -> (userMap[k]?.pool ?: false) }
+            .forEach { (_, v) -> v.total = (nonTargetSum + v.targeted).round() }
+        return resultMap.values
     }
 
     fun getOverViewInformation(): Iterable<DisplayBill> {
