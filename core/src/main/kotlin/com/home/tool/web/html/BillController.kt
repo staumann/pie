@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView
 import java.text.SimpleDateFormat
 import java.util.*
 
-val sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy")
+val sdf: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
 
 @Controller
 class BillController(
@@ -43,7 +43,7 @@ class BillController(
     fun newBill(model: Model): ModelAndView {
         model["title"] = "Create new Bill"
         model["shops"] = shopService.getAllShops()
-        model["users"] = userService.getAll()
+        model["users"] = userService.getAll().filter { it.pool }
         return ModelAndView("bill/new", model.asMap())
     }
 
@@ -55,7 +55,7 @@ class BillController(
     ): ModelAndView {
         val cal: Calendar = Calendar.getInstance()
         cal.time = sdf.parse(date)
-        billProcessor.saveBill(Bill(payedBy = payedBy, shopId = shopId, date = cal))
-        return ModelAndView("redirect:/overview")
+        val bill = billProcessor.saveBill(Bill(payedBy = payedBy, shopId = shopId, date = cal))
+        return ModelAndView("redirect:/show/bill?id=${bill?.id}")
     }
 }
